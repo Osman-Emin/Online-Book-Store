@@ -58,12 +58,12 @@ namespace AdminPanel
                 // The easiest option for development outside a container is to use SQLite
                 // options.UseSqlite(Configuration.GetConnectionString("SqliteConnection"));
                 // Or use this for PostgreSQL:
-                options.UseNpgsql(Configuration.GetConnectionString("PostgresConnection"));
+                // options.UseNpgsql(Configuration.GetConnectionString("PostgresConnection"));
 
                 // Use this to connect to a MySQL server:
                 // options.UseMySQL(Configuration.GetConnectionString("MysqlConnection"));
                 // Or use this for SQL Server (if running on Windows):
-                // options.UseSqlServer(Configuration.GetConnectionString("MsSqlConnection"));
+                options.UseSqlServer(Configuration.GetConnectionString("MsSqlConnection"));
             });
 
             services.AddDefaultIdentity<ApplicationUser>()
