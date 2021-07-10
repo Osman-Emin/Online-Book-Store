@@ -99,7 +99,7 @@ namespace AdminPanel
 
             services.ConfigureApplicationCookie(options =>
             {
-                options.Cookie.Name = "CreativeTim.Argon.DotNetCore.AppCookie";
+                options.Cookie.Name = "AdminPanel.AppCookie";
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
                 // You might want to only set the application cookies over a secure connection:
@@ -168,7 +168,7 @@ namespace AdminPanel
             {
                 // Set a short timeout for easy testing.
                 options.IdleTimeout = TimeSpan.FromMinutes(60);
-                options.Cookie.Name = "CreativeTim.Argon.DotNetCore.SessionCookie";
+                options.Cookie.Name = "AdminPanel.SessionCookie";
                 // You might want to only set the application cookies over a secure connection:
                 // options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
                 options.Cookie.SameSite = SameSiteMode.Strict;
