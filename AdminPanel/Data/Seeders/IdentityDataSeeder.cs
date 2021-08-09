@@ -11,8 +11,8 @@ namespace AdminPanel.Data.Seeders
         where TIdentityRole : IdentityRole, new()
     {
         private const string DefaultAdminRoleName = "Administrator";
-        private const string DefaultAdminUserEmail = "admin@argon.com";
-        private const string DefaultAdminUserPassword = "Secret1+";
+        private const string DefaultAdminUserEmail = "admin@gmail.com";
+        private const string DefaultAdminUserPassword = "aaAA11!!";
 
         private static async Task CreateDefaultAdminRole(RoleManager<TIdentityRole> roleManager)
         {
@@ -34,7 +34,7 @@ namespace AdminPanel.Data.Seeders
 
         private static async Task<TIdentityUser> CreateDefaultAdminUser(UserManager<TIdentityUser> userManager)
         {
-            var user = await userManager.FindByEmailAsync("admin@argon.com");
+            var user = await userManager.FindByEmailAsync(DefaultAdminUserEmail);
             if (user == null)
             {
                 user = new TIdentityUser
@@ -69,7 +69,22 @@ namespace AdminPanel.Data.Seeders
                 }
             }
         }
-
+        private static async Task SeedClients(UserManager<TIdentityUser> userManager)
+        {
+            for (int i = 0; i < 200; i++)
+            {
+                var user = new TIdentityUser()
+                {
+                    UserName = Faker.Internet.UserName(),
+                    Email = Faker.Internet.Email(),
+                    EmailConfirmed = true,
+                    PhoneNumber = Faker.Phone.Number(),
+                    PhoneNumberConfirmed = true,
+                    
+                };
+                await userManager.CreateAsync(user, "12345678");
+            }
+        }
         public static async Task SeedDataAsync(IServiceProvider services, ILogger logger) 
         {
             var context = services.GetRequiredService<ApplicationDbContext>();
@@ -99,6 +114,7 @@ namespace AdminPanel.Data.Seeders
             await CreateDefaultAdminRole(roleManager);
             var defaultAdminUser = await CreateDefaultAdminUser(userManager);
             await AddDefaultAdminRoleToDefaultAdminUser(userManager, defaultAdminUser);
+            await SeedClients(userManager);
         }
     }
 }

@@ -35,6 +35,8 @@ namespace AdminPanel.Infrastructure.Startup
                 await IdentityDataSeeder<ApplicationUser, IdentityRole>.SeedDataAsync(
                     scope.ServiceProvider, 
                     _logger);
+                await SiteDataSeeder.SeedDataAsync(
+                    scope.ServiceProvider);
             }
         }
 

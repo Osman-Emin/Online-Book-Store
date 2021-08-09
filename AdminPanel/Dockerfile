@@ -5,7 +5,7 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
 WORKDIR /src
-COPY ["AdminPanel/CreativeTim.Argon.DotNetCore.Free.csproj", "CreativeTim.Argon.DotNetCore.Free/"]
+COPY ["AdminPanel/AdminPanel.csproj", "AdminPanel/"]
 RUN dotnet restore "AdminPanel/CreativeTim.Argon.DotNetCore.Free.csproj"
 COPY . .
 WORKDIR "/src/AdminPanel"
