@@ -12,7 +12,7 @@ namespace AdminPanel.Data.Seeders
     {
         private const string DefaultAdminRoleName = "Administrator";
         private const string DefaultAdminUserEmail = "admin@gmail.com";
-        private const string DefaultAdminUserPassword = "aaAA11!!";
+        private const string DefaultAdminUserPassword = "12345678";
 
         private static async Task CreateDefaultAdminRole(RoleManager<TIdentityRole> roleManager)
         {

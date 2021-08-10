@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace AdminPanel.Models
 {
@@ -16,5 +17,13 @@ namespace AdminPanel.Models
         public virtual ICollection<CartItem> CartItems { get; set; }
         public Client Client { get; set; }
         public DateTime CreationDate { get; set; } = DateTime.Now;
+        [NotMapped]
+        public double Total
+        {
+            get
+            {
+                return CartItems.Any() ? CartItems.Sum(c => c.Price):0;
+            }
+        }
     }
 }
