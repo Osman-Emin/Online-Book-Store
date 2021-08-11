@@ -21,8 +21,8 @@
                     <div class="row align-items-center py-4">
                         @RenderSection("Breadcrumbs", required: false)
                         <div class="col-lg-6 col-5 text-right">
-                            <a href="#" class="btn btn-sm btn-neutral">New</a>
-                            <a href="#" class="btn btn-sm btn-neutral">Filters</a>
+                            <a id = "btn-new" href="#" class="btn btn-sm btn-neutral">New</a>
+                            @* <a href="#" class="btn btn-sm btn-neutral">Filters</a> *@
                         </div>
                     </div>
                     @RenderSection("DashboardCards", required: false)
@@ -33,13 +33,17 @@
         <!-- Page content -->
         <div class="container-fluid mt--6">
             <!-- Page content -->
+            <div style="text-align: center; vertical-align: middle; font-family: Verdana; color: Blue; position: absolute;z-index: 1000;height: 100%;width: 100%;   font-size: small;background-color: white" id="dvProgress" runat="server">
+                <img src="~/img/theme/loading-buffering.gif" style="vertical-align: middle;horiz-align: center;width: 50px;height: 50px;top: 50%; left: 50%;" alt="Processing" /></div>
             @RenderBody()
             <partial name="_Footer" />
         </div>
     </div>
     
     <partial name="_ThemeScripts" />
-
+<script>
+            $("#body").ready(function (){$("div[id$=dvProgress]").fadeOut("fast");});
+</script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>
