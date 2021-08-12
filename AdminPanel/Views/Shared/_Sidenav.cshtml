@@ -45,21 +45,31 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link @(Context.Request.Path == "/maps" ? "active" : "")" href="@Url.Action("Maps")">
+                        <a class="nav-link @(Context.Request.Path == "/publisher" ? "active" : "")" href="@Url.Action("Index","Publisher")">
                             <i class="ni ni-pin-3 text-primary"></i> Publishers
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link @(Context.Request.Path == "/profile" ? "active" : "")" href="@Url.Action("Profile")">
+                        <a class="nav-link @(Context.Request.Path == "/Book" ? "active" : "")" href="@Url.Action("Index","Book")">
                             <i class="ni ni-single-02 text-yellow"></i> Books
                         </a>
                     </li>
-                    @* <li class="nav-item"> *@
-                    @*     <a class="nav-link @(Context.Request.Path == "/tables" ? "active" : "")" href="@Url.Action("Tables")"> *@
-                    @*         <i class="ni ni-bullet-list-67 text-default"></i> Tables *@
-                    @*     </a> *@
-                    @* </li> *@
-                    @* *@
+                    <li class="nav-item">
+                        <a class="nav-link @(Context.Request.Path == "/BookCategory" ? "active" : "")" href="@Url.Action("Index","BookCategory")">
+                            <i class="ni ni-bullet-list-67 text-default"></i> BookCategories
+                        </a>
+                    </li>
+                     <li class="nav-item">
+                        <a class="nav-link @(Context.Request.Path == "/Order" ? "active" : "")" href="@Url.Action("Index","Order")">
+                            <i class="ni ni-bullet-list-67 text-default"></i> Orders
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @(Context.Request.Path == "/Client" ? "active" : "")" href="@Url.Action("Index","Client")">
+                            <i class="ni ni-bullet-list-67 text-default"></i> Clients
+                        </a>
+                    </li>
+                    
                     @* Not required for now *@
                     
                     @* <li class="nav-item"> *@

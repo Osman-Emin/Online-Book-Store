@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Authors";
+    ViewData["Title"] = "Orders";
 }
 
 <div class="row">
@@ -7,11 +7,11 @@
         <div class="card">
             <!-- Card header -->
             <div class="card-header border-0">
-                <h3 class="mb-0">Authors</h3>
+                <h3 class="mb-0">Orders</h3>
             </div>
 
             <div class="table-responsive">
-                <table id="authorsDT" class="table align-items-center table-flush">
+                <table id="ordersDT" class="table align-items-center table-flush">
                     <thead class="thead-light">
                     <tr>
                         <th>Id</th>
@@ -55,16 +55,16 @@
     <script>  
       
         $(document).ready(function() {  
-            $("#btn-new").attr("href", '@Url.Action("Create","Author")')
+            $("#btn-new").attr("href", '@Url.Action("Create","Order")')
             var token = '@Html.AntiForgeryToken()';
-            $("#authorsDT").DataTable({  
+            $("#ordersDT").DataTable({  
                 "processing": true, // for show progress bar    
                 "serverSide": true, // for process server side    
                 "filter": true, // this is for disable filter (search box)    
                 "orderMulti": false, // for disable multiple column at once    
                 "pagingType": "full_numbers",
                 "ajax": {  
-                    "url": "@Url.Action("LoadData", "Author")",  
+                    "url": "@Url.Action("LoadData", "Order")",  
                     "type": "POST",
                     "data": function ( d ) {
                             d.__RequestVerificationToken = $(token).val();
@@ -91,11 +91,11 @@
                 "columns": [  
                     { "data": "Id", "name": "Id", "autoWidth": true },  
                     {
-                        "render": function(data, type, full, meta) { return '<a  href="@Url.Action("Details","Author")/' + full.Id + '">'+full.Name+'</a>'; }  
+                        "render": function(data, type, full, meta) { return '<a  href="@Url.Action("Details","Order")/' + full.Id + '">'+full.Name+'</a>'; }  
                     },  
                     { "data": "CreationDate", "name": "CreationDate", "autoWidth": true },  
                     {  
-                        "render": function(data, type, full, meta) { return '<a class="btn btn-info" href="@Url.Action("Edit","Author")/' + full.Id + '">Edit</a>'; }  
+                        "render": function(data, type, full, meta) { return '<a class="btn btn-info" href="@Url.Action("Edit","Order")/' + full.Id + '">Edit</a>'; }  
                     },  
                     {  
                         data: null,  
@@ -120,11 +120,11 @@
       
       
     function Delete(Id) {  
-        var url = '@Url.Action("Delete", "Author")';  
+        var url = '@Url.Action("Delete", "Order")';  
         var token = '@Html.AntiForgeryToken()'
         $.post(url, { id: Id ,__RequestVerificationToken:$(token).val()}, function(data) {  
             if (data) {  
-                oTable = $('#authorsDT').DataTable();  
+                oTable = $('#ordersDT').DataTable();  
                 oTable.draw();  
             } else {  
                 alert("Something Went Wrong!");  

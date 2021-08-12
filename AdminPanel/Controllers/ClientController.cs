@@ -9,11 +9,11 @@ using Microsoft.AspNetCore.Mvc;
 namespace AdminPanel.Controllers
 {
     [Authorize]
-    public class AuthorController : Controller
+    public class ClientController : Controller
     {
         private ApplicationDbContext _context;  
   
-        public AuthorController(ApplicationDbContext context)  
+        public ClientController(ApplicationDbContext context)  
         {  
             _context = context;  
         }  
@@ -26,21 +26,21 @@ namespace AdminPanel.Controllers
         [HttpPost]
         public IActionResult Delete(int id)
         {
-            var author = _context.Authors.FirstOrDefault(o => o.Id == id);
-            if (author != null)
+            var client = _context.Clients.FirstOrDefault(o => o.Id == id);
+            if (client != null)
             {
-                _context.Authors.Remove(author);
+                _context.Clients.Remove(client);
                 _context.SaveChanges();
             }
             return Ok(true);
         }
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public IActionResult Details(Author author)
+        public IActionResult Details(Client client)
         {
             try
             {
-                _context.Update(author); 
+                _context.Update(client); 
                 _context.SaveChanges();
             }
             catch (Exception e)
@@ -55,19 +55,19 @@ namespace AdminPanel.Controllers
         public IActionResult Details(int id)
         {
             ViewBag.IsDetail = true;
-            return View(_context.Authors.Find(id));
+            return View(_context.Clients.Find(id));
         }
         [HttpGet]
         public IActionResult Edit(int id)
         {
             ViewBag.IsDetail = false;
-            return View("Details",_context.Authors.Find(id));
+            return View("Details",_context.Clients.Find(id));
         }
         [HttpGet]
         public IActionResult Create()
         {
             ViewBag.IsDetail = false;
-            return View("Details",new Author());
+            return View("Details",new Client());
         }
         
         [HttpPost]
@@ -92,25 +92,24 @@ namespace AdminPanel.Controllers
                 int skip = start != null ? Convert.ToInt32(start) : 0;  
                 int recordsTotal = 0;  
   
-                // Getting all Author data  
-                var authorData = (from tempaAuthor in _context.Authors
-                    select new{Id=tempaAuthor.Id.ToString(),Name=tempaAuthor.Name,CreationDate=tempaAuthor.CreationDate.ToString(CultureInfo.InvariantCulture)} );  
+                // Getting all Client data  
+                IQueryable<Client> clientData = _context.Clients;  
   
                 //Sorting  
                 // if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))  
                 // {  
-                //     authorData = authorData.OrderBy(sortColumn , sortColumnDirection);  
+                //     clientData = clientData.OrderBy(sortColumn , sortColumnDirection);  
                 // }  
                 //Search  
                 if (!string.IsNullOrEmpty(searchValue))  
                 {  
-                    authorData = authorData.Where(m => m.Name.Contains(searchValue));  
+                    clientData = clientData.Where(m => m.ApplicationUser.FullName.Contains(searchValue));  
                 }  
   
                 //total number of rows count   
-                recordsTotal = authorData.Count();  
+                recordsTotal = clientData.Count();  
                 //Paging   
-                var data = authorData.Skip(skip).Take(pageSize).ToList();  
+                var data = clientData.Skip(skip).Take(pageSize).ToList();  
                 //Returning Json Data  
                 var x =Content(Newtonsoft.Json.JsonConvert.SerializeObject(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data }),"application/json");
                 return x;
