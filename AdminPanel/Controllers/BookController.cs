@@ -27,14 +27,20 @@ namespace AdminPanel.Controllers
         } 
         
         // [HttpGet("/Book/GetBooks")]
-        public IActionResult GetBooks(int length = 10,int page=1,bool random = false)
+        public IActionResult GetBooks(int length = 10,int page=1,bool random = false,string term = null)
         {
             IQueryable<Book> data = _context.Books;
             if (random)
             {
                 data = data.OrderBy(o => Guid.NewGuid());
             }
-            var result = data.Skip(length * page).Take(length).ToList();
+            if (!string.IsNullOrWhiteSpace(term))
+            {
+                data = data.Where(o =>
+                    o.Title.Contains(term) || o.Author.Name.Contains(term) || o.BookCategory.Name.Contains(term) ||
+                    o.Publisher.Name.Contains(term));
+            }
+            var result = data.Skip(length * page-1).Take(length).ToList();
             var x =Content(Newtonsoft.Json.JsonConvert.SerializeObject(new {  data = result }),"application/json");
             return x;
         }

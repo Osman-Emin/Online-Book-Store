@@ -155,12 +155,7 @@ namespace AdminPanel.Controllers
         }
 
         
-
-        [HttpGet("/Search")]
-        public IActionResult Search()
-        {
-            return View();
-        }
+        
         [HttpGet("/privacy")]
         public IActionResult Privacy()
         {

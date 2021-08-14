@@ -6,27 +6,18 @@
                     <header>
                         <h2 class="tm-main-title">The easiest way to buy books ever</h2>    
                     </header>
-                    <div class="wrap">
-                        <div class="search">
-                            <input type="text" id="searchTerm" class="searchTerm" placeholder="What are you looking for?">
-                            <button onclick="search(1)" class="searchButton">
-                                <i class="fa fa-search"></i>
-                            </button>
-                        </div>
-                    </div>
+                    <div class="row">
+                        <div class="wrap">
+                            <div class="search">
+                                <input type="text" id="searchTerm" class="searchTerm" placeholder="Search" >
+                                <button onclick="search(1)" class="searchButton">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div></div>
                     <div class="tm-gallery">
                         <div id="bookList" class="row">
-                            <figure class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item">
-                                <a href="@Url.Action("Preview","Home")">
-                                    <div class="tm-gallery-item-overlay">
-                                        <img src="~/img/image-01.jpg" alt="Image" class="img-fluid tm-img-center">
-                                        <div class="cart">
-                                        <button onclick="AddToCart(this,`+data.data[i].Id+`)">Add To Cart</button>
-                                        </div>
-                                    </div>
-                                    <p class="tm-figcaption">Nam vitae odio</p>
-                                </a>
-                            </figure>
+                           
                         </div>   
                     </div>
                     
@@ -60,9 +51,8 @@
     var length =0;
     $(document).ready(function (){search(page)});
     function search(pag){
-     
      var term = $("#searchTerm").val();
-     $.ajax("/Book/GetBooks?length=8&page="+page+"&term="+term,{
+     $.ajax("@Url.Action("GetBooks","Book")?length=8&page="+page+"&term="+term,{
                                   
                                     type: "GET",
                                     contentType: "application/json; charset=utf-8",
@@ -74,61 +64,30 @@
                                       var list = "";
                                       for (i = 0 ; i < data.data.length; i++) {
                                           
-                                          list += `
-                                          <div class="swiper-slide">
-                                                <div class="slider-box">
-                                          <p class="time">New</p>
-                                          <div class="img-box">
-                                          <img src="`+data.data[i].ImageUrl+`">
-                                          </div>
-                                          <p class="detail">`+data.data[i].Title.substring(0,25)+`
-                                          <a href="#" class="price">`+data.data[i].Price+`$</a>
-                                          </p>
-                                          <div class="cart">
-                                          <button onclick="AddToCart(this,`+data.data[i].Id+`)">Add To Cart</button>
-                                          </div>
-                                          </div>
-                                                
-                                                </div>
+                                          list += ` <figure class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item">
+                                              <a href="#">
+                                                  <div class="tm-gallery-item-overlay">
+                                                    <div class="img__wrap">
+                                                      <img class="img__img img-fluid tm-img-center" src="`+data.data[i].ImageUrl+`" alt="Image" />
+                                                      <p class="img__description">`+data.data[i].Title+`</p>
+                                                    </div>
+                                                  </div>
+                                                  <p class="tm-figcaption">`+data.data[i].Title.substring(0,15)+`..</p>
+                                              </a>
+                                                <br>
+                                               <div class="cart">
+                                               <button onclick="AddToCart(this,`+data.data[i].Id+`)">Add To Cart</button>
+                                               </div>
+                                          </figure>
                             
-                                          `; //todo put add to cart and detail links
+                                          `; //todo  detail links
                                                   }
-                                     $('.swiper-wrapper').empty().append(list);
-                                      var swiper = new Swiper('.swiper-container', {
-                                            slidesPerView: 5.2,
-                                            spaceBetween: 30,
-                                            pagination: {
-                                              el: '.swiper-pagination',
-                                              clickable: true,
-                                            },
-                                             autoplay: {
-                                              delay: 2500,
-                                              disableOnInteraction: true,
-                                            },
-                                            navigation: {
-                                               nextEl: ".swiper-button-next",
-                                               prevEl: ".swiper-button-prev",
-                                             },
-                                           
-                                          });
+                                     $('#bookList').empty().append(list);
+                                   
                                       },
                                       error: function (jqXhr, textStatus, errorMessage){alert('Error: ' + errorMessage);}
                                       });
-                             function AddToCart(e,bookId){
-                                    e.innerText = "Adding..";
-                                   $.ajax("@Url.Action("AddToCart", "Home")/?bookId="+bookId,{
-                                                 type: "GET",
-                                                 success: function (data) {
-                                                      e.innerText = "Added";                                              
-                                                 },
-                                                 error: function (jqXhr, textStatus, errorMessage){
-                                                     if(jqXhr.status === 401)
-                                                          window.location = '@Url.Page("/Account/login", new { area = "Identity" })';
-                                                     else
-                                                         alert('Error: ' + jqXhr.status + errorMessage);
-                                                 }
-                                   });
-                             }    
+                             
     }
     
     </script>

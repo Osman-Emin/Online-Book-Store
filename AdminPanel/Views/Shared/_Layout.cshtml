@@ -71,7 +71,7 @@
             										 justify-content:center;
             										 align-items:center;}
             										 .cart button{
-            										 background-color: white;
+            										 background-color: rgba(0,0,0,0);
             										 }
             											 /*color:#FFFFFF;}*/
             											 .slider-box:hover{
@@ -112,8 +112,8 @@
 
 <div class="main-content">
     <header class="tm-site-header">
-        <h1 class="tm-site-name">Shelf</h1>
-        <p class="tm-site-description">Your Online Bookstore</p>
+        <h1 class="tm-site-name"><img src="~/img/brand/White.png" style="max-height: 2.5rem;" alt="OBS"></h1>
+        <p class="tm-site-description">Online Book Store</p>
 
         <nav class="navbar navbar-expand-md tm-main-nav-container">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#tmMainNav" aria-controls="tmMainNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -167,7 +167,7 @@
         
             $("#body").ready(function (){
                 $("div[id$=dvProgress]").fadeOut("fast");
-                  $.ajax("/Book/GetBooks?random=true",{
+                  $.ajax("@Url.Action("GetBooks","Book")?random=true&length=30",{
                               
                                 type: "GET",
                                 contentType: "application/json; charset=utf-8",
