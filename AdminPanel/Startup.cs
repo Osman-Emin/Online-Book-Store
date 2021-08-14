@@ -218,6 +218,10 @@ namespace AdminPanel
             app.UseEndpoints(eb =>
             {
                 eb.MapRazorPages();
+                eb.MapAreaControllerRoute(
+                    name: "Admin",
+                    areaName: "Admin",
+                    pattern: "Admin/{controller=Home}/{action=Index}/{id?}");
                 eb.MapControllerRoute("default", "{controller=home}/{action=index}/{id?}");
             });
         }

@@ -40,3 +40,24 @@
         return def.promise();
     
 }
+function InfoDialog(message) {
+    
+        $('<div></div>').appendTo('body')
+            .html('<div><h6>' + message + '?</h6></div>')
+            .dialog({
+                modal: true,
+                title: 'Info',
+                zIndex: 10000,
+                autoOpen: true,
+                width: 'auto',
+                resizable: false,
+                buttons: {
+                    Ok: function() {
+                        $(this).dialog("close");
+                    }
+                },
+                close: function(event, ui) {
+                    $(this).remove();
+                }
+            });
+}

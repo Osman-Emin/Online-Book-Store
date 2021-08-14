@@ -1,49 +1,237 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en-US">
 <head>
     <partial name="_PageHeadElement"/>
-    
+        
     @RenderSection("Styles", required: false)
     @RenderSection("HeadScripts", required: false)
+    <style>
+         
+            html,body{
+            	position:relative;
+            	height:100%;}
+            	
+            	body{
+            		margin:0px;
+            		padding:0px;
+            		font-family:montserrat,sans-serif;
+            		background-color:rgba(241,241,241,1.00);}
+            		.swiper-slide{
+            			width:250px !important;
+            			 }
+            		
+            		.slider-box{
+            			margin:20px;
+            			height:350px;
+            			width:250px;
+            			position:relative;
+            			background-color:#FFFFFF;
+            			border-radius:5px;
+            			display:flex;
+            			flex-direction:column;
+            			justify-content:center;
+            			align-items:center;
+            			text-align:center;
+            			border:1px solid rgba(187,187,187,0.40);
+            			}
+            			.slider-box button{
+            				text-decoration:none;
+            				text-align:center;}
+            				.img-box{
+            					height:170px;
+            					}
+            					.img-box img{
+            						height:auto;
+            						max-width:100%;
+            						max-height:100%;}
+            						.time{
+            							position:absolute;
+            							top:0px;
+            							right:20px;
+            							color:#f16007;}
+            							.detail{
+            								display:flex;
+            								flex-direction:column;
+            								align-items:center;
+            								box-sizing:border-box;
+            								font-size:13px;
+            								line-height:35px;}
+            								.price{
+            									/*color:#FFFFFF;*/
+            									color:#076599;
+            									/*background-color:#ff555b;*/
+            									 line-height:20px;}
+            									 .cart{
+            										 position:absolute;
+            										 bottom:0px;
+            										 height:45px;
+            										 /*background-color:#ff696e;*/
+            										 width:100%;
+            										 display:flex;
+            										 justify-content:center;
+            										 align-items:center;}
+            										 .cart button{
+            										 background-color: white;
+            										 }
+            											 /*color:#FFFFFF;}*/
+            											 .slider-box:hover{
+            												 box-shadow:2px 2px 12px rgba(47,47,47,0.40);
+            												 }
+            												 .slider-box:hover .img-box img{
+            													 transform:scale(1.03);
+            													 transition:all ease 0.1s;}
+            													 .cart:hover{
+            														 transform:scale(1.03);
+            														 /*background-color:#fe9048;*/
+            							box-shadow:2px 2px 12px rgba(47,47,47,0.40);
+            							transition:all ease 0.1s;}
+            							
+            							
+            							
+            							
+            							.heading{
+            								display:flex;
+            								justify-content:center;
+            							}
+            							.heading h1{
+            								border-left:2px solid #000000;
+            								Border-right:2px solid #000000;
+            								background-color:#f05656;
+            								text-shadow:2px 2px 12px rgba(69,66,66,0.3);
+            								padding:0px 10px;
+            								color:#FFFFFF;
+            								margin:20px;
+            								font-size:30px;
+            								font-family:calibri;}
+        
+
+    </style>
 </head>
 <body>
-    <partial name="_GoogleTagManagerBodyElement" />
+<partial name="_GoogleTagManagerBodyElement"/>
 
-    <partial name="_Sidenav"/>
-    <div class="main-content">
-        <partial name="Topnav/_Topnav"/>
-        
-        <!-- Header -->
-        <div class="header bg-primary pb-6">
-            <div class="container-fluid">
-                <div class="header-body">
-                    <!-- 1st Row: Crumbs and filters -->
-                    <div class="row align-items-center py-4">
-                        @RenderSection("Breadcrumbs", required: false)
-                        <div class="col-lg-6 col-5 text-right">
-                            <a id = "btn-new" href="#" class="btn btn-sm btn-neutral">New</a>
-                            @* <a href="#" class="btn btn-sm btn-neutral">Filters</a> *@
-                        </div>
-                    </div>
-                    @RenderSection("DashboardCards", required: false)
-                </div>
+<div class="main-content">
+    <header class="tm-site-header">
+        <h1 class="tm-site-name">Shelf</h1>
+        <p class="tm-site-description">Your Online Bookstore</p>
+
+        <nav class="navbar navbar-expand-md tm-main-nav-container">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#tmMainNav" aria-controls="tmMainNav" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fa fa-bars"></i>
+            </button>
+
+            <div class="collapse navbar-collapse tm-main-nav" id="tmMainNav">
+                <ul class="nav nav-fill tm-main-nav-ul">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="@Url.Action("Index", "Home")">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Categories", "Home")">Categories</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Cart", "Home")">Cart</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Team", "Home")">Our Team</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Contact", "Home")">Contact Us</a>
+                    </li>
+                </ul>
             </div>
-        </div>
-        
-        <!-- Page content -->
-        <div class="container-fluid mt--6">
-            <!-- Page content -->
-            <div style="text-align: center; vertical-align: middle; font-family: Verdana; color: Blue; position: absolute;z-index: 1000;height: 100%;width: 100%;   font-size: small;background-color: white" id="dvProgress" runat="server">
-                <img src="~/img/theme/loading-buffering.gif" style="vertical-align: middle;horiz-align: center;width: 50px;height: 50px;top: 50%; left: 50%;" alt="Processing" /></div>
-            @RenderBody()
-            <partial name="_Footer" />
+        </nav>
+
+    </header>
+    @* <partial name="Topnav/_Topnav"/> *@
+
+    <!-- Page content -->
+    <div style="text-align: center; vertical-align: middle; font-family: Verdana; color: Blue; position: absolute;z-index: 1000;height: 100%;width: 100%;   font-size: small;background-color: white" id="dvProgress" runat="server">
+        <img src="~/img/theme/loading-buffering.gif" style="vertical-align: middle;horiz-align: center;width: 50px;height: 50px;top: 50%; left: 50%;" alt="Processing"/>
+    </div>
+    @RenderBody()
+
+    <!--swiper slider-->
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <!--slide 1-------------------------------------->
+
         </div>
     </div>
-    
-    <partial name="_ThemeScripts" />
+    <!--swiper  slider end-->
+    <partial name="_Footer"/>
+</div>
+
+<partial name="_ThemeScripts"/>
+@RenderSection("Scripts", required: false)
 <script>
-            $("#body").ready(function (){$("div[id$=dvProgress]").fadeOut("fast");});
+        
+            $("#body").ready(function (){
+                $("div[id$=dvProgress]").fadeOut("fast");
+                  $.ajax("/Book/GetBooks?random=true",{
+                              
+                                type: "GET",
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                success: function (data) {
+                        //           alert(JSON.stringify(data));
+                                  var list = "";
+                                  for (i = 0 ; i < data.data.length; i++) {
+                                      list += `
+                                      <div class="swiper-slide">
+                                            <div class="slider-box">
+                                      <p class="time">New</p>
+                                      <div class="img-box">
+                                      <img src="`+data.data[i].ImageUrl+`">
+                                      </div>
+                                      <p class="detail">`+data.data[i].Title.substring(0,25)+`
+                                      <a href="#" class="price">`+data.data[i].Price+`$</a>
+                                      </p>
+                                      <div class="cart">
+                                      <button onclick="AddToCart(this,`+data.data[i].Id+`)">Add To Cart</button>
+                                      </div>
+                                      </div>
+                                            
+                                            </div>
+                        
+                                      `; //todo put add to cart and detail links
+                                              }
+                                 $('.swiper-wrapper').empty().append(list);
+                                  var swiper = new Swiper('.swiper-container', {
+                                        slidesPerView: 5.2,
+                                        spaceBetween: 30,
+                                        pagination: {
+                                          el: '.swiper-pagination',
+                                          clickable: true,
+                                        },
+                                         autoplay: {
+                                          delay: 2500,
+                                          disableOnInteraction: true,
+                                        },
+                                        navigation: {
+                                           nextEl: ".swiper-button-next",
+                                           prevEl: ".swiper-button-prev",
+                                         },
+                                       
+                                      });
+                                  },
+                                  error: function (jqXhr, textStatus, errorMessage){alert('Error: ' + errorMessage);}
+                                  });
+                        });
+                         function AddToCart(e,bookId){
+                                e.innerText = "Adding..";
+                               $.ajax("@Url.Action("AddToCart","Home")/?bookId="+bookId,{
+                                             type: "GET",
+                                             success: function (data) {
+                                                  e.innerText = "Added";                                              
+                                             },
+                                             error: function (jqXhr, textStatus, errorMessage){
+                                                 if(jqXhr.status === 401)
+                                                      window.location = '@Url.Page("/Account/login",new{area = "Identity"})';
+                                                 else
+                                                     alert('Error: ' + jqXhr.status + errorMessage);
+                                             }
+                               });
+                         }
 </script>
-    @RenderSection("Scripts", required: false)
 </body>
 </html>

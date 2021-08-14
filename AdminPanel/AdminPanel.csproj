@@ -97,47 +97,7 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Update="Views\Shared\_Header.cshtml">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Update="Views\Shared\_Breadcrumbs.cshtml">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Update="Views\Home\Upgrade.cshtml">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
     <Content Update="Views\Shared\Profile\_Topnav.cshtml">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Update="Views\Shared\Topnav\_Topnav.cshtml">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Update="Views\Shared\Topnav\_Dropdown.cshtml">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Update="Views\Shared\_LayoutProfile.cshtml">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Update="Views\Shared\Topnav\_Search.cshtml">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Update="Views\Shared\Topnav\_Links.cshtml">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Update="Views\Shared\Topnav\_CurrentUser.cshtml">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Update="Views\Shared\Topnav\_TopnavProfile.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
@@ -146,6 +106,20 @@
 
   <ItemGroup>
     <Folder Include="Data\Migrations" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Book\Details.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Book\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\BookCategory\Details.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\BookCategory\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Client\Details.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Client\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Order\Details.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Order\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Publisher\Details.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Publisher\Index.cshtml" />
   </ItemGroup>
 
 </Project>

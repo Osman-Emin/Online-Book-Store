@@ -1,24 +1,30 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using AdminPanel.Infrastructure;
 using AdminPanel.Infrastructure.ErrorHandling;
 using AdminPanel.Models;
+using AdminPanel.Data;
 using AdminPanel.Models.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace AdminPanel.Controllers
 {
-    [Authorize]
     public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ApplicationDbContext _context;
 
         [TempData]
         public string StatusMessage { get; set; }
@@ -26,8 +32,10 @@ namespace AdminPanel.Controllers
         public HomeController(
             ILogger<HomeController> logger,
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager,
+            ApplicationDbContext context)
         {
+            _context = context;
             _logger = logger;
             _userManager = userManager;
             _signInManager = signInManager;
@@ -38,17 +46,44 @@ namespace AdminPanel.Controllers
         {
             return View();
         }
-
-        [HttpGet("/icons")]
-        public IActionResult Icons()
+        [HttpGet("/Contact")]
+        public IActionResult Contact()
+        {
+            return View();
+        }
+        [HttpGet("/Team")]
+        public IActionResult Team()
+        {
+            return View();
+        }
+        [HttpGet("/Preview")]
+        public IActionResult Preview()
         {
             return View();
         }
 
-        [HttpGet("/maps")]
-        public IActionResult Maps()
+        [HttpGet("/AddToCart")]
+        public async Task<IActionResult> AddToCart(int bookId)
         {
-            return View();
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+                return Unauthorized();
+            var book = await _context.Books.FindAsync(bookId);
+            var client = _context.Clients.Include(o=>o.Carts).FirstOrDefault(c => c.ApplicationUserId == user.Id);
+            if (client == null)
+            {
+                client = new Client() { ApplicationUser = user };
+                _context.Clients.Add(client);
+            }
+            var cart = client.Carts?.FirstOrDefault();
+            if (cart == null)
+            {
+                cart = new Cart() { Client = client };
+                _context.Carts.Add(cart);
+            }
+            _context.CartItems.Add(new CartItem(){BookId = bookId,Price = book.Price,Cart = cart});
+            await _context.SaveChangesAsync();
+            return Ok("success");
         }
 
         [ImportModelState]
@@ -119,18 +154,13 @@ namespace AdminPanel.Controllers
             return RedirectToAction(nameof(Profile));
         }
 
-        [HttpGet("/tables")]
-        public IActionResult Tables()
-        {
-            return View();
-        }
         
-        [HttpGet("/upgrade")]
-        public IActionResult Upgrade()
+
+        [HttpGet("/Search")]
+        public IActionResult Search()
         {
             return View();
         }
-
         [HttpGet("/privacy")]
         public IActionResult Privacy()
         {
