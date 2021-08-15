@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace AdminPanel.Controllers
@@ -40,9 +41,19 @@ namespace AdminPanel.Controllers
                     o.Title.Contains(term) || o.Author.Name.Contains(term) || o.BookCategory.Name.Contains(term) ||
                     o.Publisher.Name.Contains(term));
             }
+
+            var noPages = Math.Ceiling(data.Count()/(double)length);
             var result = data.Skip(length * page-1).Take(length).ToList();
-            var x =Content(Newtonsoft.Json.JsonConvert.SerializeObject(new {  data = result }),"application/json");
+            var x =Content(Newtonsoft.Json.JsonConvert.SerializeObject(new {length = noPages , data = result }),"application/json");
             return x;
+        }
+        public IActionResult Details(int bookId)
+        {
+            return View(_context.Books
+                .Include(o=>o.Author)
+                .Include(o=>o.Publisher)
+                .Include(o=>o.BookCategory)
+                .First(b=>b.Id==bookId));
         }
        
     }

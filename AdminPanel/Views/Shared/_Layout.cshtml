@@ -175,6 +175,7 @@
                                 success: function (data) {
                         //           alert(JSON.stringify(data));
                                   var list = "";
+                                  var detailUrl = '@Url.Action("Details","Book")?bookId=';
                                   for (i = 0 ; i < data.data.length; i++) {
                                       list += `
                                       <div class="swiper-slide">
@@ -183,8 +184,8 @@
                                       <div class="img-box">
                                       <img src="`+data.data[i].ImageUrl+`">
                                       </div>
-                                      <p class="detail">`+data.data[i].Title.substring(0,25)+`
-                                      <a href="#" class="price">`+data.data[i].Price+`$</a>
+                                      <a href="`+detailUrl+data.data[i].Id+`" class="detail">`+data.data[i].Title.substring(0,25)+`
+                                      <p  class="price">`+data.data[i].Price+`$</p>
                                       </p>
                                       <div class="cart">
                                       <button onclick="AddToCart(this,`+data.data[i].Id+`)">Add To Cart</button>

@@ -56,11 +56,7 @@ namespace AdminPanel.Controllers
         {
             return View();
         }
-        [HttpGet("/Preview")]
-        public IActionResult Preview()
-        {
-            return View();
-        }
+        
 
         [HttpGet("/AddToCart")]
         public async Task<IActionResult> AddToCart(int bookId)

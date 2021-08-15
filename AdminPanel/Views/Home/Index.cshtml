@@ -7,14 +7,17 @@
                         <h2 class="tm-main-title">The easiest way to buy books ever</h2>    
                     </header>
                     <div class="row">
-                        <div class="wrap">
-                            <div class="search">
-                                <input type="text" id="searchTerm" class="searchTerm" placeholder="Search" >
-                                <button onclick="search(1)" class="searchButton">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </div>
-                        </div></div>
+                        <div  class="col-md-6">
+                            <div class="wrap">
+                                <div class="search">
+                                    <input type="text" id="searchTerm" class="searchTerm" placeholder="What are you looking for?">
+                                    <button onclick="search(1)"  id="searchButton" class="searchButton">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div></div >
+                        <div class="col-md-3  text-info"><inline id="results"></inline> results</div>
+                        </div>
                     <div class="tm-gallery">
                         <div id="bookList" class="row">
                            
@@ -49,10 +52,30 @@
     <script>
     var page =1;
     var length =0;
-    $(document).ready(function (){search(page)});
-    function search(pag){
+    var pageSize=16;
+    $(document).ready(function (){
+        search(page);
+         $('#searchTerm').keypress(function(e){
+              if(e.keyCode==13)
+              $('#searchButton').click();
+            });
+    });
+    
+    
+    function setLoading(isLoading){
+         if (isLoading){ 
+             $("#searchButton > i").addClass('fa-spinner fa-spin');
+             $("#searchButton > i").removeClass('fa-search');
+         }
+         else{  
+             $("#searchButton > i").addClass('fa-search');
+             $("#searchButton > i").removeClass('fa-spinner fa-spin');
+         }
+     }
+     function search(pag){
      var term = $("#searchTerm").val();
-     $.ajax("@Url.Action("GetBooks","Book")?length=8&page="+page+"&term="+term,{
+     setLoading(true);
+     $.ajax("@Url.Action("GetBooks", "Book")?length="+pageSize+"&page="+pag+"&term="+term,{
                                   
                                     type: "GET",
                                     contentType: "application/json; charset=utf-8",
@@ -60,12 +83,15 @@
                                     success: function (data) {
                                         page = pag;
                                         length = data.length;
+                                        $("#results").text(length*pageSize);
+                                        setLoading(false);
                             //           alert(JSON.stringify(data));
+                                      var detailUrl = '@Url.Action("Details", "Book")?bookId=';
                                       var list = "";
                                       for (i = 0 ; i < data.data.length; i++) {
                                           
                                           list += ` <figure class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item">
-                                              <a href="#">
+                                              <a href="`+detailUrl+data.data[i].Id+`">
                                                   <div class="tm-gallery-item-overlay">
                                                     <div class="img__wrap">
                                                       <img class="img__img img-fluid tm-img-center" src="`+data.data[i].ImageUrl+`" alt="Image" />
