@@ -1,111 +1,12 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+<!DOCTYPE html>
 <html lang="en-US">
 <head>
     <partial name="_PageHeadElement"/>
         
     @RenderSection("Styles", required: false)
     @RenderSection("HeadScripts", required: false)
-    <style>
-         
-            html,body{
-            	position:relative;
-            	height:100%;}
-            	
-            	body{
-            		margin:0px;
-            		padding:0px;
-            		font-family:montserrat,sans-serif;
-            		background-color:rgba(241,241,241,1.00);}
-            		.swiper-slide{
-            			width:250px !important;
-            			 }
-            		
-            		.slider-box{
-            			margin:20px;
-            			height:350px;
-            			width:250px;
-            			position:relative;
-            			background-color:#FFFFFF;
-            			border-radius:5px;
-            			display:flex;
-            			flex-direction:column;
-            			justify-content:center;
-            			align-items:center;
-            			text-align:center;
-            			border:1px solid rgba(187,187,187,0.40);
-            			}
-            			.slider-box button{
-            				text-decoration:none;
-            				text-align:center;}
-            				.img-box{
-            					height:170px;
-            					}
-            					.img-box img{
-            						height:auto;
-            						max-width:100%;
-            						max-height:100%;}
-            						.time{
-            							position:absolute;
-            							top:0px;
-            							right:20px;
-            							color:#f16007;}
-            							.detail{
-            								display:flex;
-            								flex-direction:column;
-            								align-items:center;
-            								box-sizing:border-box;
-            								font-size:13px;
-            								line-height:35px;}
-            								.price{
-            									/*color:#FFFFFF;*/
-            									color:#076599;
-            									/*background-color:#ff555b;*/
-            									 line-height:20px;}
-            									 .cart{
-            										 position:absolute;
-            										 bottom:0px;
-            										 height:45px;
-            										 /*background-color:#ff696e;*/
-            										 width:100%;
-            										 display:flex;
-            										 justify-content:center;
-            										 align-items:center;}
-            										 .cart button{
-            										 background-color: rgba(0,0,0,0);
-            										 }
-            											 /*color:#FFFFFF;}*/
-            											 .slider-box:hover{
-            												 box-shadow:2px 2px 12px rgba(47,47,47,0.40);
-            												 }
-            												 .slider-box:hover .img-box img{
-            													 transform:scale(1.03);
-            													 transition:all ease 0.1s;}
-            													 .cart:hover{
-            														 transform:scale(1.03);
-            														 /*background-color:#fe9048;*/
-            							box-shadow:2px 2px 12px rgba(47,47,47,0.40);
-            							transition:all ease 0.1s;}
-            							
-            							
-            							
-            							
-            							.heading{
-            								display:flex;
-            								justify-content:center;
-            							}
-            							.heading h1{
-            								border-left:2px solid #000000;
-            								Border-right:2px solid #000000;
-            								background-color:#f05656;
-            								text-shadow:2px 2px 12px rgba(69,66,66,0.3);
-            								padding:0px 10px;
-            								color:#FFFFFF;
-            								margin:20px;
-            								font-size:30px;
-            								font-family:calibri;}
-        
-
-    </style>
 </head>
 <body>
 <partial name="_GoogleTagManagerBodyElement"/>
@@ -122,6 +23,28 @@
 
             <div class="collapse navbar-collapse tm-main-nav" id="tmMainNav">
                 <ul class="nav nav-fill tm-main-nav-ul">
+                    <li class="nav-item dropdown">
+                                                        <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <div class="media align-items-center">
+                                                                @* <span class="avatar avatar-sm rounded-circle"> *@
+                                                                @*     <img alt="Image placeholder" src="~/img/theme/user.png"> *@
+                                                                @* </span> *@
+                                                                <div class="media-body ml-2 d-none d-lg-block">
+                                                                    <span class="mb-0 text-sm font-weight-bold">
+                                                                        @if (SignInManager.IsSignedIn(User))
+                                                                        {
+                                                                            <i class="fa fa-user"></i> @User.GetFullNameOrEmail()
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <span>Login / Register</span>
+                                                                        }
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                        <partial name="_Dropdown" />
+                                        </li>
                     <li class="nav-item">
                         <a class="nav-link active" href="@Url.Action("Index", "Home")">Home</a>
                     </li>
@@ -129,13 +52,10 @@
                         <a class="nav-link" href="@Url.Action("Categories", "Home")">Categories</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("Cart", "Home")">Cart</a>
+                        <a class="nav-link" href="@Url.Action("Index", "Cart")">Cart</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("Team", "Home")">Our Team</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("Contact", "Home")">Contact Us</a>
+                        <a class="nav-link" href="@Url.Action("Index", "Order")">My Orders</a>
                     </li>
                 </ul>
             </div>
@@ -151,7 +71,7 @@
     @RenderBody()
 
     <!--swiper slider-->
-    <div class="swiper-container">
+    <div class="swiper-container sliderr">
         <div class="swiper-wrapper">
             <!--slide 1-------------------------------------->
 
@@ -220,7 +140,7 @@
                         });
                          function AddToCart(e,bookId){
                                 e.innerText = "Adding..";
-                               $.ajax("@Url.Action("AddToCart","Home")/?bookId="+bookId,{
+                               $.ajax("@Url.Action("AddToCart","Cart")/?bookId="+bookId,{
                                              type: "GET",
                                              success: function (data) {
                                                   e.innerText = "Added";                                              

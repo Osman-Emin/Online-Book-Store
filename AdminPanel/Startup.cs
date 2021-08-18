@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -162,7 +163,7 @@ namespace AdminPanel
 
             // You probably want to use in-memory cache if not developing using docker-compose
             // services.AddMemoryCache();
-            services.AddDistributedRedisCache(action => { action.Configuration = Configuration["Redis:InstanceName"]; });
+            // services.AddDistributedRedisCache(action => { action.Configuration = Configuration["Redis:InstanceName"]; });
 
             services.AddSession(options =>
             {

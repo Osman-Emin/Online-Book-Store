@@ -11,6 +11,12 @@
             <i class="ni ni-single-02"></i>
             <span>My profile</span>
         </a>
+        @if(User.IsInRole("Administrator")){
+            <a class="dropdown-item" href="@Url.Action("Index", "Home", new { area = "Admin" })">
+                <i class="ni ni-planet"></i>
+                <span>Dashboard</span>
+            </a>
+        }
         @* <a href="@Url.Action("Profile")" class="dropdown-item"> *@
         @*     <i class="ni ni-settings-gear-65"></i> *@
         @*     <span>Settings</span> *@
@@ -35,7 +41,7 @@
     {
         <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Login">
             <i class="ni ni-single-02"></i>
-            <span>Login</span>
+            <span>Login / Register</span>
         </a>
 
     }

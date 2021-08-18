@@ -120,6 +120,29 @@
     <_ContentIncludedByDefault Remove="Views\Order\Index.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Publisher\Details.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Publisher\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Shared\Auth\_Footer.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Shared\Auth\_Header.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Shared\Auth\_Navbar.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Shared\Topnav\_CurrentUser.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Shared\Topnav\_Dropdown.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Shared\Topnav\_Links.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Shared\Topnav\_Search.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Shared\Topnav\_Topnav.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Shared\Topnav\_TopnavProfile.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Shared\Error.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Shared\_ValidationScriptsPartial.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Topnav\_CurrentUser.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Topnav\_Dropdown.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Topnav\_Links.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Topnav\_Search.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Topnav\_Topnav.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Topnav\_TopnavProfile.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Admin\Views\Shared\Auth\_Footer.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Admin\Views\Shared\Auth\_Header.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Admin\Views\Shared\Auth\_Navbar.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Shared\Auth\_Footer.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Shared\Auth\_Header.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Shared\Auth\_Navbar.cshtml" />
   </ItemGroup>
 
 </Project>

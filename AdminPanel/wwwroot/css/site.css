@@ -6,6 +6,15 @@ a.navbar-brand {
   text-align: center;
   word-break: break-all;
 }
+.login-header {
+    background: url("../img/theme/img-1-1000x600.jpg");
+}
+.login-header-txt
+{
+    color: white;
+    -webkit-filter: drop-shadow(0px 3px 3px rgba(62,62,62,1));
+    filter: drop-shadow(0px 3px 3px rgba(62,62,62,1));
+}
 
 /* Sticky footer styles
 -------------------------------------------------- */
