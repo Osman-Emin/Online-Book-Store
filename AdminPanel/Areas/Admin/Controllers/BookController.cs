@@ -4,6 +4,8 @@ using AdminPanel.Data;
 using AdminPanel.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.Areas.Admin.Controllers
 {
@@ -55,21 +57,41 @@ namespace AdminPanel.Areas.Admin.Controllers
         public IActionResult Details(int id)
         {
             ViewBag.IsDetail = true;
-            return View(_context.Books.Find(id));
+            SetSelectLists();
+            return View(GetBookWithData(id));
         }
         [HttpGet]
         public IActionResult Edit(int id)
         {
             ViewBag.IsDetail = false;
-            return View("Details",_context.Books.Find(id));
+            SetSelectLists();
+            return View("Details",GetBookWithData(id));
         }
         [HttpGet]
         public IActionResult Create()
         {
             ViewBag.IsDetail = false;
+            SetSelectLists();
             return View("Details",new Book());
         }
-        
+
+        private void SetSelectLists()
+        {
+            ViewBag.BookCategories = _context.BookCategories.ToList();
+            ViewBag.Authors = _context.Authors.ToList();
+            ViewBag.Publishers = _context.Publishers.ToList();
+        }
+
+        private Book GetBookWithData(int bookId)
+        {
+
+            return _context.Books
+                .Include(o => o.Author)
+                .Include(o => o.Publisher)
+                .Include(o => o.BookCategory)
+                .First(b => b.Id == bookId);
+        }
+
         [HttpPost]
         public IActionResult LoadData()  
         {  
@@ -109,7 +131,22 @@ namespace AdminPanel.Areas.Admin.Controllers
                 //total number of rows count   
                 recordsTotal = bookData.Count();  
                 //Paging   
-                var data = bookData.Skip(skip).Take(pageSize).ToList();
+                var data = from d in bookData.Skip(skip).Take(pageSize)
+                        .Include(o => o.Author)
+                        .Include(o => o.Publisher)
+                        .Include(o => o.BookCategory).AsQueryable()  
+                    select new { 
+                        d.Id,
+                        d.Title,
+                        d.ImageUrl,
+                        d.ISBN,
+                        Author=d.Author.Name,
+                        Publisher=d.Publisher.Name,
+                        d.PublishYear,
+                        d.CopyNumber,
+                        BookCategory=d.BookCategory.Name,
+                        d.Price,
+                    };
                 // data = data.Select(tempBook => new { Id = tempBook.Id.ToString(),
                 //     Title = tempBook.Title})
                 //Returning Json Data  

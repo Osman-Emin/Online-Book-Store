@@ -15,7 +15,15 @@
                     <thead class="thead-light">
                     <tr>
                         <th>Id</th>
-                        <th>Name</th>
+                        <th>Title</th>
+                        <th>Image</th>
+                        <th>ISBN</th>
+                        <th>Author</th>
+                        <th>Publisher</th>
+                        <th>PublishYear</th>
+                        <th>CopyNumber</th>
+                        <th>BookCategory</th>
+                        <th>Price</th>
                         <th>Creation Date</th>
                         <th>Edit</th>
                         <th>Delete</th>
@@ -38,6 +46,9 @@
     <link href="../vendor/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet"/>
     <link href="../vendor/datatables.net-select-bs4/css/select.bootstrap4.min.css" rel="stylesheet"/>
     <link href="../vendor/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet"/>
+    <style>
+        
+    </style>
 }
 
 @section Scripts
@@ -91,9 +102,19 @@
                 "columns": [  
                     { "data": "Id", "name": "Id", "autoWidth": true },  
                     {
-                        "render": function(data, type, full, meta) { return '<a  href="@Url.Action("Details","Book",new { area = "Admin" })/' + full.Id + '">'+full.Name+'</a>'; }  
+                        "render": function(data, type, full, meta) { return '<a  href="@Url.Action("Details","Book",new { area = "Admin" })/' + full.Id + '">'+full.Title+'</a>'; }  
                     },  
-                    { "data": "CreationDate", "name": "CreationDate", "autoWidth": true },  
+                    {
+                        "render": function(data, type, full, meta) { return '<a class="data-grid-image" href="'+full.ImageUrl+'"><img src="'+full.ImageUrl+'" alt="'+full.Title+'"></a>'; }  
+                    },  
+                    
+                    { "data": "ISBN", "name": "ISBN", "autoWidth": true },  
+                    { "data": "Author", "name": "Author", "autoWidth": true },  
+                    { "data": "Publisher", "name": "Publisher", "autoWidth": true },  
+                    { "data": "PublishYear", "name": "PublishYear", "autoWidth": true },  
+                    { "data": "CopyNumber", "name": "CopyNumber", "autoWidth": true },  
+                    { "data": "BookCategory", "name": "BookCategory", "autoWidth": true },  
+                    { "data": "Price", "name": "Price", "autoWidth": true },  
                     {  
                         "render": function(data, type, full, meta) { return '<a class="btn btn-info" href="@Url.Action("Edit","Book",new { area = "Admin" })/' + full.Id + '">Edit</a>'; }  
                     },  

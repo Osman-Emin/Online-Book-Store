@@ -1,4 +1,5 @@
-﻿@model Book
+﻿@using AdminPanel.Data
+@model Book
 @{
     Layout = "_Layout";
     ViewData["Title"] = "Profile";
@@ -57,8 +58,76 @@
                             @Html.AntiForgeryToken()
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    @* <label class="form-control-label" for="input-Name">Name</label> *@
-                                    @* <input asp-for="Name" type="text" id="input-Name" class="form-control" placeholder="Name" > *@
+                                    <label class="form-control-label" for="input-ImageUrl">Image</label>
+                                    <input asp-for="ImageUrl" type="text" id="input-ImageUrl" class="form-control" placeholder="Image Url" >
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-Title">Title</label>
+                                    <input asp-for="Title" type="text" id="input-Title" class="form-control" placeholder="Title" >
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-ISBN">ISBN</label>
+                                    <input asp-for="ISBN" type="text" id="input-ISBN" class="form-control" placeholder="ISBN" >
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-AuthorId">Author</label>
+                                    @if (ViewBag.IsDetail)
+                                    {
+                                        <input asp-for="Author.Name" type="text" id="input-Author" class="form-control" placeholder="Author" >
+                                    }
+                                    else{ <select asp-for="AuthorId" id="input-AuthorId" class="form-control"
+                                             asp-items="@(new SelectList(ViewBag.Authors,"Id","Name"))">
+                                         <option>select</option>
+                                     </select>}
+                                </div>
+                            </div>
+                             <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-PublisherId">Publisher</label>
+                                     @if (ViewBag.IsDetail)
+                                     {
+                                         <input asp-for="Publisher.Name" type="text" id="input-Publisher" class="form-control" placeholder="Publisher" >
+                                     }
+                                    else{<select asp-for="PublisherId" id="input-PublisherId" class="form-control"
+                                            asp-items="@(new SelectList(ViewBag.Publishers,"Id","Name"))">
+                                        <option>select</option>
+                                    </select>}
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-PublishYear">Publish Year</label>
+                                    <input asp-for="PublishYear" type="number" id="input-PublishYear" class="form-control" placeholder="Publish Year" >
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-CopyNumber">Copy Number</label>
+                                    <input asp-for="CopyNumber" type="number" id="input-CopyNumber" class="form-control" placeholder="Copy Number" >
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-BookCategoryId">Book Category</label>
+                                     @if (ViewBag.IsDetail)
+                                     {
+                                         <input asp-for="BookCategory.Name" type="text" id="input-BookCategory" class="form-control" placeholder="Book Category" >
+                                     }else{<select asp-for="BookCategoryId" id="input-BookCategoryId" class="form-control"
+                                            asp-items="@(new SelectList(ViewBag.BookCategories,"Id","Name"))">
+                                        <option>select</option>
+                                    </select> }
+                                </div>
+                            </div>
+                             <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-Price">Price</label>
+                                    <input asp-for="Price" type="number" id="input-Price" class="form-control" placeholder="Price" >
                                 </div>
                             </div>
                             @Html.HiddenFor(o => o.Id)
@@ -66,16 +135,6 @@
                         </div>
 
                     </div>
-                    @* <hr class="my-4"/> *@
-                    @* <!-- Books --> *@
-                    @* <h6 class="heading-small text-muted mb-4">Books</h6> *@
-                    @* <div class="pl-lg-4"> *@
-                    @*     <div class="row"> *@
-                    @*         <div class="col-md-12"> *@
-                    @*         todo add book list *@
-                    @*         </div> *@
-                    @*     </div> *@
-                    @* </div> *@
                     <hr class="my-4"/>
                 </div>
                 <div class="card-footer">
