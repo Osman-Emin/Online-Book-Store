@@ -37,7 +37,7 @@ namespace AdminPanel.Controllers
             return View(_context.Orders
                 .Include(o=>o.CartItems).ThenInclude(i=>i.Book)
                 .Include(o=>o.Client).ThenInclude(c=>c.ApplicationUser)
-                .Where(o=>o.Client.ApplicationUserId == user.Id).ToList());
+                .Where(o=>o.Client.ApplicationUserId == user.Id).OrderByDescending(b=>b.Id).ToList());
         }
         [AllowAnonymous]
         [HttpPost("/payment")]

@@ -25,14 +25,14 @@
                 <ul class="nav nav-fill tm-main-nav-ul">
                     
                     <li class="nav-item">
-                        <a class="nav-link active" href="@Url.Action("Index", "Home")">Home</a>
+                        <a class="nav-link active" href="@Url.Action("Index", "Home")"><i class="fa fa-home"></i> Home</a>
                     </li>
                     
                     <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("Index", "Cart")">Cart</a>
+                        <a class="nav-link" href="@Url.Action("Index", "Cart")"><i class="fa fa-shopping-cart"></i> Cart</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("Index", "Order")">My Orders</a>
+                        <a class="nav-link" href="@Url.Action("Index", "Order")"><i class="fa fa-receipt"></i> My Orders</a>
                     </li>
                     <li class="nav-item dropdown">
                             <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -44,11 +44,11 @@
                                         <span class="mb-0 text-sm font-weight-bold">
                                             @if (SignInManager.IsSignedIn(User))
                                             {
-                                                <i class="fa fa-user"></i> @User.GetFullNameOrEmail()
+                                                <i class="fa fa-lock"></i> @User.GetFullNameOrEmail()
                                             }
                                             else
                                             {
-                                                <span>Login / Register</span>
+                                                <span><i class="fa fa-lock-open"></i> Login / Register</span>
                                             }
                                         </span>
                                     </div>
