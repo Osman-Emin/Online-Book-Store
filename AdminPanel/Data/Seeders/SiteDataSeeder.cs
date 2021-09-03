@@ -72,7 +72,7 @@ namespace AdminPanel.Data.Seeders
                 user.BirthDate = Faker.Identification.DateOfBirth();
                 user.Address = Faker.Address.StreetAddress(true);
                 _context.Clients.Add(
-                    new Client() { ApplicationUserId = user.Id }
+                    new Client() { ApplicationUserId = user.Id ,CreationDate = DateTime.Now.AddDays(Faker.RandomNumber.Next(0,90))}
                 );
             }
         }
@@ -84,7 +84,7 @@ namespace AdminPanel.Data.Seeders
             {
                  _context.Authors.Add(
                  
-                     new Author(){Name = Faker.Name.FullName()}
+                     new Author(){Name = Faker.Name.FullName(),CreationDate = DateTime.Now.AddDays(Faker.RandomNumber.Next(0,90))}
                  );
             }
         }
@@ -93,10 +93,10 @@ namespace AdminPanel.Data.Seeders
         {
             _context.BookCategories.AddRange(new[]
             {
-                new BookCategory() { Name = "Fantasy" }, new BookCategory() { Name = "Sci-Fi" },
-                new BookCategory() { Name = "Mystery" }, new BookCategory() { Name = "Thriller" },
-                new BookCategory() { Name = "Romance" }, new BookCategory() { Name = "Westerns" },
-                new BookCategory() { Name = "Dystopian" }, new BookCategory() { Name = "Contemporary" },
+                new BookCategory() { Name = "Fantasy" ,CreationDate = DateTime.Now.AddDays(Faker.RandomNumber.Next(0,90))}, new BookCategory() { Name = "Sci-Fi" ,CreationDate = DateTime.Now.AddDays(Faker.RandomNumber.Next(0,90))},
+                new BookCategory() { Name = "Mystery" ,CreationDate = DateTime.Now.AddDays(Faker.RandomNumber.Next(0,90))}, new BookCategory() { Name = "Thriller" ,CreationDate = DateTime.Now.AddDays(Faker.RandomNumber.Next(0,90))},
+                new BookCategory() { Name = "Romance",CreationDate = DateTime.Now.AddDays(Faker.RandomNumber.Next(0,90)) }, new BookCategory() { Name = "Westerns" ,CreationDate = DateTime.Now.AddDays(Faker.RandomNumber.Next(0,90))},
+                new BookCategory() { Name = "Dystopian" ,CreationDate = DateTime.Now.AddDays(Faker.RandomNumber.Next(0,90))}, new BookCategory() { Name = "Contemporary" ,CreationDate = DateTime.Now.AddDays(Faker.RandomNumber.Next(0,90))},
             });
 
         }
@@ -107,7 +107,7 @@ namespace AdminPanel.Data.Seeders
             {
                 _context.Publishers.Add(
                 
-                    new Publisher(){Name = Faker.Company.Name()}
+                    new Publisher(){Name = Faker.Company.Name(),CreationDate = DateTime.Now.AddDays(Faker.RandomNumber.Next(0,90))}
                 );
             }
         }
@@ -121,6 +121,7 @@ namespace AdminPanel.Data.Seeders
                     {
                         Title = Faker.Lorem.Sentence(2),ISBN = Faker.Identification.SocialSecurityNumber(),BookCategoryId = Faker.RandomNumber.Next(1,_context.BookCategories.Count())
                         ,AuthorId = Faker.RandomNumber.Next(1,_context.Authors.Count()),PublisherId = Faker.RandomNumber.Next(1,_context.Publishers.Count()),CopyNumber = Faker.RandomNumber.Next(1,4),
+                        CreationDate = DateTime.Now.AddDays(Faker.RandomNumber.Next(0,90)),Price = Faker.RandomNumber.Next(30,200),PublishYear = Faker.RandomNumber.Next(1900,2021)
                     }
                 );
             }
@@ -132,7 +133,7 @@ namespace AdminPanel.Data.Seeders
             {
                 _context.Carts.Add(new Cart()
                 {
-                    ClientId = client.Id
+                    ClientId = client.Id,CreationDate = DateTime.Now.AddDays(Faker.RandomNumber.Next(0,90))
                 });
             }
         }
@@ -150,7 +151,8 @@ namespace AdminPanel.Data.Seeders
                         {
                             CartId = cart.Id,
                             BookId = book.Id,
-                            Price = book.Price,
+                            Price = book.Price
+                            ,CreationDate = DateTime.Now.AddDays(Faker.RandomNumber.Next(0,90))
                         });
                 }
             }
@@ -162,6 +164,7 @@ namespace AdminPanel.Data.Seeders
                 var order = _context.Orders.Add(new Order()
                 {
                     ClientId = cart.ClientId,PaymentReferenceNo = Faker.Identification.SocialSecurityNumber(),CartItems = cart.CartItems
+                    ,CreationDate = DateTime.Now.AddDays(Faker.RandomNumber.Next(0,90))
                 });
             }
         }

@@ -67,7 +67,7 @@ namespace AdminPanel.Controllers
             var cart = GetCart(cartId, user);
             if (cart == null)
                 return NotFound();
-            var order=CreateOrder(GetCart(cartId));
+            var order=CreateOrder(cart);
             CreateCheckoutFormInitializeRequest request = new CreateCheckoutFormInitializeRequest();
             request.Locale = Locale.TR.ToString();
             request.ConversationId = "123456789";

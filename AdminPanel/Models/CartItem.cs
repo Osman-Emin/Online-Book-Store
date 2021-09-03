@@ -10,7 +10,7 @@ namespace AdminPanel.Models
         public int Id { get; set; }
         public double Price { get; set; }
         [ForeignKey(nameof(Cart))]
-        public int CartId { get; set; }
+        public int? CartId { get; set; }
         [ForeignKey(nameof(Order))]
         public int? OrderId { get; set; } 
         [ForeignKey(nameof(Book))]

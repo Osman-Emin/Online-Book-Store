@@ -1,5 +1,8 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
+using AdminPanel.Data;
 using AdminPanel.Infrastructure;
 using AdminPanel.Infrastructure.ErrorHandling;
 using AdminPanel.Models;
@@ -20,6 +23,7 @@ namespace AdminPanel.Areas.Admin.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ApplicationDbContext _context;
 
         [TempData]
         public string StatusMessage { get; set; }
@@ -27,16 +31,26 @@ namespace AdminPanel.Areas.Admin.Controllers
         public HomeController(
             ILogger<HomeController> logger,
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager,
+            ApplicationDbContext context)
         {
             _logger = logger;
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = context;
         }
 
         [HttpGet("/Admin/")]
         public IActionResult Index()
         {
+            ViewBag.NewUsers = _context.Clients.Count(c => DateTime.Now.AddMonths(-1) < c.CreationDate);
+            ViewBag.NewUsersGrowthInMonth = ((double)ViewBag.NewUsers) / 
+                _context.Clients.Count(c => DateTime.Now.AddMonths(-1) > c.CreationDate &&
+                                            DateTime.Now.AddMonths(-2) < c.CreationDate) *100;  
+            ViewBag.Sales = _context.Orders.Count(c => DateTime.Now.AddMonths(-1) < c.CreationDate);
+            ViewBag.SalesGrowthInLastMonth = ((double)ViewBag.Sales) / 
+                _context.Orders.Count(c => DateTime.Now.AddMonths(-1) > c.CreationDate &&
+                                            DateTime.Now.AddMonths(-2) < c.CreationDate) *100;
             return View();
         }
 

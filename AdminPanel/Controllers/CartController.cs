@@ -63,6 +63,7 @@ namespace AdminPanel.Controllers
                 _context.Carts.Add(cart);
             }
 
+            _context.SaveChanges();
             return cart;
         }
     }
