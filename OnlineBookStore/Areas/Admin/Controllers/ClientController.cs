@@ -109,7 +109,17 @@ namespace OnlineBookStore.Areas.Admin.Controllers
                 //total number of rows count   
                 recordsTotal = clientData.Count();  
                 //Paging   
-                var data = clientData.Skip(skip).Take(pageSize).ToList();  
+                var data = clientData.Skip(skip).Take(pageSize).Select(cc=>new
+                {
+                    cc.Id,
+                    cc.ApplicationUser.FullName,
+                    cc.ApplicationUser.Email,
+                    BirthDate=cc.ApplicationUser.BirthDate.Value.ToString("d"),
+                    cc.ApplicationUser.PhoneNumber,
+                    cc.ApplicationUser.JobDescription,
+                    cc.ApplicationUser.Address,
+                    CreationDate=cc.CreationDate.ToString("d"),
+                }).ToList();  
                 //Returning Json Data  
                 var x =Content(Newtonsoft.Json.JsonConvert.SerializeObject(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data }),"application/json");
                 return x;

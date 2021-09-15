@@ -3,7 +3,26 @@
     Layout = "_Layout";
     ViewData["Title"] = "Profile";
 }
-
+@section Styles
+{
+    <style>
+      table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+      
+      td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+      
+      tr:nth-child(even) {
+        background-color: #dddddd;
+      }
+    </style>
+}
 <div class="row">
     <div  class="col-md-12">
         <div class="card">
@@ -57,42 +76,83 @@
                             @Html.AntiForgeryToken()
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    @* <label class="form-control-label" for="input-Name">Name</label> *@
-                                    @* <input asp-for="Name" type="text" id="input-Name" class="form-control" placeholder="Name" > *@
+                                    <label class="form-control-label" for="input-ClientName">Client Name</label>
+                                    <input asp-for="Client.ApplicationUser.FullName" type="text" id="input-ClientName" class="form-control" placeholder="Client Name" >
                                 </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-ClientAddress">Client Address</label>
+                                    <input asp-for="Client.ApplicationUser.Address" type="text" id="input-ClientAddress" class="form-control" placeholder="Client Address" >
+                                </div>
+                            </div> 
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-ClientPhone">Client Phone</label>
+                                    <input asp-for="Client.ApplicationUser.PhoneNumber" type="text" id="input-ClientPhone" class="form-control" placeholder="Client Phone" >
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-IsProcessed">Is Processed</label>
+                                    <span  type="checkbox" id="input-IsProcessed" class="form-control"  >@(Model.IsProcessed?"Yes":"No")</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-Total">Total</label>
+                                    <input asp-for="Total" type="number" id="input-Total" class="form-control" placeholder="Total" >
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-PaymentReferenceNo">Payment Reference No</label>
+                                    <input asp-for="PaymentReferenceNo" type="number" id="input-PaymentReferenceNo" class="form-control" placeholder="Not Payed" >
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <label class="form-control-label" for="bookTable">Books</label>
+                                <table id="bookTable">
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>CopyNumber</th>
+                                        <th>ISBN</th>
+                                        <th>Price</th>
+                                    </tr>
+                                    @foreach (var cartItem in Model.CartItems)
+                                    {
+                                        <tr>
+                                            <td>@cartItem.Book.Title</td>
+                                            <td>@cartItem.Book.CopyNumber</td>
+                                            <td>@cartItem.Book.ISBN</td>
+                                            <td>@cartItem.Price</td>
+                                        </tr>
+                                    }
+                                </table>
                             </div>
                             @Html.HiddenFor(o => o.Id)
                             @Html.HiddenFor(o => o.CreationDate)
                         </div>
 
                     </div>
-                    @* <hr class="my-4"/> *@
-                    @* <!-- Books --> *@
-                    @* <h6 class="heading-small text-muted mb-4">Books</h6> *@
-                    @* <div class="pl-lg-4"> *@
-                    @*     <div class="row"> *@
-                    @*         <div class="col-md-12"> *@
-                    @*         todo add book list *@
-                    @*         </div> *@
-                    @*     </div> *@
-                    @* </div> *@
                     <hr class="my-4"/>
                 </div>
                 <div class="card-footer">
                     <div class="row align-items-center">
                         <div class="col-12 text-center">
-                            @if (!ViewBag.IsDetail)
-                            {
-                            <input type="submit" class="btn btn-md btn-primary" value="Save">
-                                
-                            
-                            }
-                            else
-                            {
-                                <a href="@Url.Action("Edit", "Order",new { area = "Admin" })/@Model.Id" class="btn btn-md btn-secondary">
-                                    Edit Details
-                                </a>
-                            }
+                            @* @if (!ViewBag.IsDetail) *@
+                            @* { *@
+                            @* <input type="submit" class="btn btn-md btn-primary" value="Save"> *@
+                            @*      *@
+                            @* *@
+                            @* } *@
+                            @* else *@
+                            @* { *@
+                            <a href='#' class="btn btn-md btn-secondary" onclick="ToggleProcessed(@Model.Id)" >@(Model.IsProcessed?"Set Not Processed":"Set Processed")</a>
+                            @* <a href="@Url.Action("Edit", "Order",new { area = "Admin" })/@Model.Id" class="btn btn-md btn-secondary"> *@
+                            @*     Edit Details *@
+                            @* </a> *@
+                            @* } *@
                             <a href="@Url.Action("Index", "Order",new { area = "Admin" })" class="btn btn-md btn-secondary">
                                 Back
                             </a>
@@ -110,5 +170,26 @@
                 $("input").prop("readonly",true);     
             $("#btn-new").prop("hidden",true);
         });
+
+    function ToggleProcessed(CustomerID) {  
+        ConfirmDialog("Are you sure you want to set item as @(Model.IsProcessed?"not ":"")processed?").done(function() {
+            ToggleProcessedf(CustomerID);
+        }).fail(function() {
+            // the pressed Cancel
+        });
+      
+    }  
+      
+    function ToggleProcessedf(Id) {  
+        var url = '@Url.Action("ToggleProcessed", "Order", new { area = "Admin" })';  
+        var token = '@Html.AntiForgeryToken()'
+        $.post(url, { id: Id ,__RequestVerificationToken:$(token).val()}, function(data) {  
+            if (data) {  
+              location.reload();
+            } else {  
+                alert("Something Went Wrong!");  
+            }  
+        });  
+    }  
     </script>
 }

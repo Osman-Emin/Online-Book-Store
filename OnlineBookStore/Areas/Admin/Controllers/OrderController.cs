@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
+using Faker;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using OnlineBookStore.Data;
 using OnlineBookStore.Models;
 
@@ -24,50 +26,23 @@ namespace OnlineBookStore.Areas.Admin.Controllers
         }
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public IActionResult Delete(int id)
+        public IActionResult ToggleProcessed(int id)
         {
             var order = _context.Orders.FirstOrDefault(o => o.Id == id);
             if (order != null)
             {
-                _context.Orders.Remove(order);
+                order.IsProcessed = !order.IsProcessed;
                 _context.SaveChanges();
             }
             return Ok(true);
         }
-        [ValidateAntiForgeryToken]
-        [HttpPost]
-        public IActionResult Details(Order order)
-        {
-            try
-            {
-                _context.Update(order); 
-                _context.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                ModelState.AddModelError(string.Empty, "There is something wrong while saving item.");
-                return View();
-            }
-            
-            return RedirectToAction("Index");
-        }
+        
         [HttpGet]
         public IActionResult Details(int id)
         {
             ViewBag.IsDetail = true;
-            return View(_context.Orders.Find(id));
-        }
-        [HttpGet]
-        public IActionResult Edit(int id)
-        {
-            ViewBag.IsDetail = false;
-            return View("Details",_context.Orders.Find(id));
-        }
-        [HttpGet]
-        public IActionResult Create()
-        {
-            ViewBag.IsDetail = false;
-            return View("Details",new Order());
+            return View(_context.Orders.Include(o => o.CartItems).ThenInclude(ci => ci.Book).Include(o => o.Client)
+                .ThenInclude(oo => oo.ApplicationUser).FirstOrDefault(o => o.Id == id));
         }
         
         [HttpPost]
@@ -109,7 +84,13 @@ namespace OnlineBookStore.Areas.Admin.Controllers
                 //total number of rows count   
                 recordsTotal = orderData.Count();  
                 //Paging   
-                var data = orderData.Skip(skip).Take(pageSize).ToList();  
+                var data = orderData.Skip(skip).Take(pageSize).Include(o => o.CartItems).Include(o => o.Client)
+                    .ThenInclude(oo => oo.ApplicationUser).Select(cc=>new
+                    {
+                        cc.Id, Client = cc.Client.ApplicationUser.FullName,Phone = cc.Client.ApplicationUser.PhoneNumber,
+                        cc.PaymentReferenceNo,cc.IsProcessed,
+                        CreationDate = cc.CreationDate.ToString("f"),Total=cc.Total.ToString("F")
+                    }).ToList();  
                 //Returning Json Data  
                 var x =Content(Newtonsoft.Json.JsonConvert.SerializeObject(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data }),"application/json");
                 return x;
