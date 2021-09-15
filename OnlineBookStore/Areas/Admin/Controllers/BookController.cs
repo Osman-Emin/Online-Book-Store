@@ -1,6 +1,10 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +17,12 @@ namespace OnlineBookStore.Areas.Admin.Controllers
     [Authorize(Roles="Administrator")]
     public class BookController : Controller
     {
-        private ApplicationDbContext _context;  
-  
-        public BookController(ApplicationDbContext context)  
-        {  
+        private ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
+        public BookController(ApplicationDbContext context,IWebHostEnvironment webHostEnvironment)
+        {
+            _webHostEnvironment = webHostEnvironment;
             _context = context;  
         }  
         // GET: /<controller>/  
@@ -38,17 +44,33 @@ namespace OnlineBookStore.Areas.Admin.Controllers
         }
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public IActionResult Details(Book book)
+        public async Task<IActionResult> Details(Book book)
         {
             try
             {
+                var ImageFile = Request.Form.Files.FirstOrDefault();
+                if (ImageFile!= null && ImageFile.Length > 0)
+                {
+                    var directory = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
+                    var fileName = DateTime.Now.ToString("yy-M-d-hh-mm-ss-") + new Random().Next(11, 99) +
+                                   ImageFile.FileName;
+                    string filePath = Path.Combine(directory,fileName);
+                    Directory.CreateDirectory(directory);
+                    using (Stream fileStream = new FileStream(filePath, FileMode.Create)) {
+                        await ImageFile.CopyToAsync(fileStream);
+                    }
+
+                    book.ImageUrl = "/uploads/"+fileName;
+                }
                 _context.Update(book); 
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
             catch (Exception e)
             {
                 ModelState.AddModelError(string.Empty, "There is something wrong while saving item.");
-                return View();
+                ViewBag.IsDetail = false;
+                SetSelectLists();
+                return View("Details",GetBookWithData(book.Id));
             }
             
             return RedirectToAction("Index");
