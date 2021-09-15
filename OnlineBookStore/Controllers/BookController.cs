@@ -43,7 +43,7 @@ namespace OnlineBookStore.Controllers
             }
 
             var noPages = Math.Ceiling(data.Count()/(double)length);
-            var result = data.Skip(length * page-1).Take(length).ToList();
+            var result = data.Skip(length * (page-1)).Take(length).ToList();
             var x =Content(Newtonsoft.Json.JsonConvert.SerializeObject(new {length = noPages , data = result }),"application/json");
             return x;
         }
